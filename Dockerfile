@@ -17,6 +17,4 @@ VOLUME /etc/openconnect
 
 EXPOSE 3128/tcp
 
-# ENTRYPOINT ["openconnect", "--config=/etc/openconnect/openconnect.conf"]
-#CMD ["--help"]
 ENTRYPOINT ["/entrypoint.sh"]
