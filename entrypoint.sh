@@ -1,7 +1,7 @@
 #!/bin/sh
 if [ x$LOG_STDOUT == 'xtrue' ]
 then
-  chmod a+w /dev /dev/stdout /dev/stderr /proc/*/fd/*
+  chmod a+w /dev /dev/stdout /dev/stderr 
   echo "logfile_rotate 0" >> /etc/squid/squid.conf
   echo "cache_log stdio:/dev/stderr" >> /etc/squid/squid.conf
   echo "access_log stdio:/dev/stderr" >> /etc/squid/squid.conf
