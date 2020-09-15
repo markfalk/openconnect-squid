@@ -15,5 +15,24 @@ then
 fi
 
 openconnect -b $ANYCONNECT_SERVER --timestamp
-sleep 4
+
+KAU=$ANYCONNECT_SERVER
+KAT=300
+
+if [ x$KEEP_ALIVE_URL != 'x' ]
+then
+   KAU=$KEEP_ALIVE_URL
+fi
+
+if [ x$KEEP_ALIVE_TIMEOUT != 'x' ]
+then
+   KAT=$KEEP_ALIVE_TIMEOUT
+fi
+
+while true
+do
+   sleep $KAT
+   curl -x localhost:3128 -s -I -o /dev/null $KAU
+done &
+
 squid -N
