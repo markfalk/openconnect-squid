@@ -15,6 +15,8 @@ then
 fi
 
 openconnect -b $ANYCONNECT_SERVER --timestamp
+# required for squid to receive updated DNS resolv.conf
+sleep 4
 
 KAU=$ANYCONNECT_SERVER
 KAT=300
