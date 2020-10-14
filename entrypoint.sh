@@ -16,7 +16,10 @@ then
    exit 0
 fi
 
-openconnect -b $ANYCONNECT_SERVER --timestamp
+# Check for any redirections to get the true endpoint
+ANYCONNECT_SERVER_TRUE=`curl -Ls -o /dev/null -w %{url_effective} $ANYCONNECT_SERVER`
+
+openconnect -b $ANYCONNECT_SERVER_TRUE --timestamp
 # required for squid to receive updated DNS resolv.conf
 sleep 4
 
