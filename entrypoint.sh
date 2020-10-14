@@ -8,6 +8,8 @@ then
   echo "cache_store_log stdio:/dev/stderr" >> /etc/squid/squid.conf
 fi
 
+sed -i 's/http_access deny CONNECT/#http_access deny CONNECT/' /etc/squid/squid.conf
+
 if [ x$DEBUG == 'xtrue' ]
 then
    sleep infinity
