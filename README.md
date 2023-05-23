@@ -1,6 +1,7 @@
 # openconnect-squid
 
-A container to allow an OpenConnect VPN connection to be used via a [squid](http://www.squid-cache.org/) proxy.
+A container to allow an OpenConnect VPN connection to be used via a [squid](http://www.squid-cache.org/) proxy as well
+as a socks5 proxy.
 
 Supported variables:
 - `ANYCONNECT_SERVER` = Server to connect to
@@ -10,7 +11,7 @@ Supported variables:
 
 A typical invocation:
 ```
->docker run --privileged -p 4128:3128/tcp -e LOG_STDOUT=true -e ANYCONNECT_SERVER=https://<VPN_URL> -i -t mfalk/openconnect-squid:latest
+>docker run --privileged -p 4128:3128/tcp -p 1081:1080/tcp -e LOG_STDOUT=true -e ANYCONNECT_SERVER=https://<VPN_URL> -i -t mfalk/openconnect-squid:latest
 [2020-10-14 22:43:09] POST https://<VPN_URL>/
 [2020-10-14 22:43:09] Connected to X.X.X.X:443
 [2020-10-14 22:43:09] SSL negotiation with <VPN_URL>
@@ -86,6 +87,7 @@ stdio:/dev/stderr: Permission denied
 ```
 
 This will forward local port 4128 to the standard squid proxy of 3128.
+This will forward local port 1081 to the standard socks proxy of 1080.
 
 Note:
 - System will send a curl of the $ANYCONNECT_SERVER URL every $KEEP_ALIVE_TIMEOUT as a keep-alive

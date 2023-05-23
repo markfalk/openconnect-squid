@@ -1,4 +1,6 @@
 #!/bin/sh
+cp /tmp/squid.conf /etc/squid/squid.conf
+
 if [ x$LOG_STDOUT == 'xtrue' ]
 then
   chmod a+w /dev /dev/stdout /dev/stderr 
@@ -7,8 +9,6 @@ then
   echo "access_log stdio:/dev/stderr" >> /etc/squid/squid.conf
   echo "cache_store_log stdio:/dev/stderr" >> /etc/squid/squid.conf
 fi
-
-sed -i 's/http_access deny CONNECT/#http_access deny CONNECT/' /etc/squid/squid.conf
 
 if [ x$DEBUG == 'xtrue' ]
 then
@@ -42,4 +42,30 @@ do
    curl -x localhost:3128 -s -I -o /dev/null $KAU
 done &
 
+ssh-keygen -A
+ssh-keygen -q -f ~/.ssh/id_rsa -N ""
+cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
+
+ed /etc/ssh/sshd_config << EOF > /dev/null
+1
+/AllowTcpForwarding
+d
+a
+AllowTcpForwarding yes
+.
+1
+/GatewayPorts
+d
+a
+GatewayPorts yes
+.
+w
+q
+EOF
+
+/usr/sbin/sshd
+#passwd -u root
+ssh -t -o StrictHostKeyChecking=no -fN -g -D 1080 localhost
+
 squid -N
+
