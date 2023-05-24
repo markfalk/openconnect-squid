@@ -65,7 +65,7 @@ EOF
 
 /usr/sbin/sshd
 #passwd -u root
-ssh -t -o StrictHostKeyChecking=no -fN -g -D 1080 localhost
+ssh -o StrictHostKeyChecking=no -fN -g -D 1080 localhost
 
 squid -N
 
