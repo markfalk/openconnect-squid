@@ -17,9 +17,19 @@ then
 fi
 
 # Check for any redirections to get the true endpoint
-ANYCONNECT_SERVER_TRUE=`curl -Ls -o /dev/null -w %{url_effective} $ANYCONNECT_SERVER`
+ANYCONNECT_SERVER_TRUE=`curl -Ls -o /dev/null -w %{urle.host} $ANYCONNECT_SERVER`
 
-openconnect -b $ANYCONNECT_SERVER_TRUE --timestamp
+# Any additional openconnect args
+if [ -z ${ADDITIONAL_OC_ARGS+x} ]
+then
+   ADDITIONAL_OC_ARGS=
+fi
+
+openconnect -b $ANYCONNECT_SERVER_TRUE --timestamp $ADDITIONAL_OC_ARGS
+# for debug
+#openconnect -v --dump-http-traffic -b $ANYCONNECT_SERVER_TRUE --timestamp $ADDITIONAL_OC_ARGS
+
+
 # required for squid to receive updated DNS resolv.conf
 sleep 4
 
