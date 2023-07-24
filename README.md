@@ -5,6 +5,7 @@ as a socks5 proxy.
 
 Supported variables:
 - `ANYCONNECT_SERVER` = Server to connect to
+- `ADDITIONAL_OC_ARGS` = Allow additional arguments to be passed to the OpenConnect command
 - `KEEP_ALIVE_URL` = URL for keep alive (defaults to $ANYCONNECT_SERVER)
 - `KEEP_ALIVE_TIMEOUT` = Seconds to sleep between Keep Alive URL requests (defaults to 300 seconds)
 - `LOG_STDOUT` = set to true to enable logs to the terminal
