@@ -7,7 +7,7 @@ MAINTAINER kev <noreply@easypi.pro>
 
 RUN set -xe \
     && apk add --no-cache \
-               openconnect squid curl expect openssh \
+               openconnect squid curl expect openssh ed \
     && mkdir -p /etc/openconnect \
     && touch /etc/openconnect/openconnect.conf
 

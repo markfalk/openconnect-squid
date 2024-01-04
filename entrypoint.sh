@@ -29,6 +29,15 @@ openconnect -b $ANYCONNECT_SERVER_TRUE --timestamp $ADDITIONAL_OC_ARGS
 # for debug
 #openconnect -v --dump-http-traffic -b $ANYCONNECT_SERVER_TRUE --timestamp $ADDITIONAL_OC_ARGS
 
+if [ x$ADDITIONAL_ROUTE_CIDR != 'x' ]
+then
+   if [ x$ADDITIONAL_ROUTE_VIA == 'x' ]
+   then
+      ADDITIONAL_ROUTE_VIA=172.17.0.1
+   fi
+   echo "Adding Route $ADDITIONAL_ROUTE_CIDR via $ADDITIONAL_ROUTE_VIA"
+   ip route add $ADDITIONAL_ROUTE_CIDR via $ADDITIONAL_ROUTE_VIA dev eth0
+fi
 
 # required for squid to receive updated DNS resolv.conf
 sleep 4
@@ -75,7 +84,7 @@ EOF
 
 /usr/sbin/sshd
 #passwd -u root
-ssh -o StrictHostKeyChecking=no -fN -g -D 1080 localhost
-
+echo "starting socks proxy"
+ssh -o StrictHostKeyChecking=no -fN -vv -g -D 1080 localhost 2>&1 | grep "^debug1: channel\|^debug2: channel 2: dynamic request" &
 squid -N
 
