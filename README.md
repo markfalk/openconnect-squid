@@ -6,13 +6,25 @@ as a socks5 proxy.
 Supported variables:
 - `ANYCONNECT_SERVER` = Server to connect to
 - `ADDITIONAL_OC_ARGS` = Allow additional arguments to be passed to the OpenConnect command
+  - Useful for passing options such as alternate user-agents 
+  
+    Example: `-e ADDITIONAL_OC_ARGS="--useragent=AnyConnect"`
+- `ADDITIONAL_ROUTE_CIDR` = Allow additional routes to be added to the VPN connection.  This became
+necessary when the VPN server was not providing the correct routes to the container which occurred
+when docker desktop moved off of VPNKit.
+  
+    Example: `-e ADDITIONAL_ROUTE_CIDR=192.168.65.0/24`
 - `KEEP_ALIVE_URL` = URL for keep alive (defaults to $ANYCONNECT_SERVER)
 - `KEEP_ALIVE_TIMEOUT` = Seconds to sleep between Keep Alive URL requests (defaults to 300 seconds)
+- `LOG_STDOUT` = set to true to enable logs to the terminal
+- `LOG_STDOUT` = set to true to enable logs to the terminal
 - `LOG_STDOUT` = set to true to enable logs to the terminal
 
 A typical invocation:
 ```
->docker run --privileged -p 4128:3128/tcp -p 1081:1080/tcp -e LOG_STDOUT=true -e ANYCONNECT_SERVER=https://<VPN_URL> -i -t mfalk/openconnect-squid:latest
+>docker run --privileged -p 4128:3128/tcp -p 1081:1080/tcp -e LOG_STDOUT=true -e ANYCONNECT_SERVER=https://<VPN_URL> \
+   -e ADDITIONAL_OC_ARGS="--useragent=AnyConnect" -e ADDITIONAL_ROUTE_CIDR=192.168.65.0/24 \
+   -i -t mfalk/openconnect-squid:latest
 [2020-10-14 22:43:09] POST https://<VPN_URL>/
 [2020-10-14 22:43:09] Connected to X.X.X.X:443
 [2020-10-14 22:43:09] SSL negotiation with <VPN_URL>
