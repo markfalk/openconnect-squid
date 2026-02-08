@@ -1,3 +1,5 @@
+## I no longer use openconnect - Archiving
+
 # openconnect-squid
 
 A container to allow an OpenConnect VPN connection to be used via a [squid](http://www.squid-cache.org/) proxy as well
